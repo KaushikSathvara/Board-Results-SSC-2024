@@ -20,11 +20,15 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
 
       - name: Prompt for tag name
         id: tag
-        run: echo "::set-output name=tag::$(read -p 'Enter tag name for the release: ' && echo $REPLY)"
+        run: |
+          echo "Enter tag name for the release:"
+          read tag_name
+          echo "::set-output name=tag_name::$tag_name"
 
       - name: Create Release
         id: create_release
@@ -32,8 +36,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.tag.outputs.tag }}
-          release_name: Release ${{ steps.tag.outputs.tag }}
+          tag_name: ${{ steps.tag.outputs.tag_name }}
+          release_name: Release ${{ steps.tag.outputs.tag_name }}
           body: |
             This is an automated release created by the GitHub Actions workflow.
           draft: false

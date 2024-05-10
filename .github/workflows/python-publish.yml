@@ -1,0 +1,40 @@
+name: Create Release on Main Branch Merge
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Prompt for tag name
+        id: tag
+        run: echo "::set-output name=tag::$(read -p 'Enter tag name for the release: ' && echo $REPLY)"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          release_name: Release ${{ steps.tag.outputs.tag }}
+          body: |
+            This is an automated release created by the GitHub Actions workflow.
+          draft: false
+          prerelease: false

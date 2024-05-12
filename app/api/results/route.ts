@@ -23,6 +23,7 @@ export async function GET(request: Request) {
           // name__lower contains search
           name: {
             contains: search,
+            mode: "insensitive",
           },
         },
       ],
@@ -35,6 +36,7 @@ export async function GET(request: Request) {
         {
           name: {
             contains: search,
+            mode: "insensitive",
           },
         },
       ],

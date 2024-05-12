@@ -1,3 +1,5 @@
+// Skip type checking on this file
+
 const fs = require("fs");
 const { PrismaClient } = require("@prisma/client");
 
@@ -15,7 +17,7 @@ async function uploadResults() {
     // Process the rows in chunks
     for (let i = 0; i < totalRows; i += chunkSize) {
       const chunk = rows.slice(i, i + chunkSize);
-      const data = chunk.map((row) => {
+      const data = chunk.map((row: any) => {
         const [seatNo, name, result, grade, percentile] = row.split(",");
         return { seat_no: seatNo, name, result, grade };
       });

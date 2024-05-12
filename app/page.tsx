@@ -41,7 +41,6 @@ export default function Dashboard() {
     fetch(`/api/results?page=${page}&pageSize=${pageSize}&search=${search}`)
       .then(async (res) => {
         let data = await res.json();
-        console.log(data.results);
         setResults(data.results);
         setTotalCount(data.count);
       })

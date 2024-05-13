@@ -22,7 +22,7 @@ export async function GET(request: Request) {
         {
           // name__lower contains search
           name: {
-            contains: search,
+            contains: search.replace(" ", " & "),
             mode: "insensitive",
           },
         },
@@ -35,7 +35,7 @@ export async function GET(request: Request) {
       OR: [
         {
           name: {
-            contains: search,
+            contains: search.replace(" ", " & "),
             mode: "insensitive",
           },
         },

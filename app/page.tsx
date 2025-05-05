@@ -14,7 +14,7 @@ import {
   Tooltip,
   Badge,
 } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   SearchOutlined,
   FileSearchOutlined,
@@ -95,6 +95,14 @@ export default function Dashboard() {
       setLoading(false);
     }
   };
+
+  const memoizedFetchResults = useCallback(() => {
+    fetchResults();
+  }, [search, page, pageSize]); // Include all dependencies used in fetchResults
+
+  useEffect(() => {
+    memoizedFetchResults();
+  }, [memoizedFetchResults]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -211,10 +219,6 @@ export default function Dashboard() {
     },
   ];
 
-  useEffect(() => {
-    fetchResults();
-  }, [page, pageSize]); // Added fetchResults as a dependency
-
   return (
     <>
       {contextHolder}
@@ -230,10 +234,10 @@ export default function Dashboard() {
             {/* Header with gradient and logo */}
             <div className="w-full text-center mb-2">
               <div className="flex justify-center mb-6">
-                <div className="bg-blue-600 rounded-full p-4 shadow-lg">
+                <div className="bg-blue-600 rounded-full p-3 sm:p-4 shadow-lg">
                   <FileSearchOutlined
-                    style={{ fontSize: "3rem", color: "white" }}
-                    className="animate-pulse"
+                    style={{ fontSize: "2rem", color: "white" }}
+                    className="animate-pulse sm:text-5xl"
                   />
                 </div>
               </div>
@@ -245,11 +249,11 @@ export default function Dashboard() {
               >
                 <Typography.Title
                   level={2}
-                  className="text-xl font-semibold mb-4 text-blue-600"
+                  className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 sm:mb-4 text-blue-600"
                 >
                   Gujarat Board Class 12 Results (HSC and GUJ-CET)
                 </Typography.Title>
-                <Typography.Text className="text-lg mb-6 text-gray-600">
+                <Typography.Text className="text-sm sm:text-base md:text-lg mb-4 sm:mb-6 text-gray-600 px-2">
                   Find your result by name, seat number or school - Instant
                   access to Science, Commerce & GUJ-CET stream results
                 </Typography.Text>
@@ -257,16 +261,22 @@ export default function Dashboard() {
             </div>
 
             {/* Search box with floating effect */}
-            <div className="w-full max-w-2xl transform hover:-translate-y-1 transition-transform duration-300">
+            <div className="w-full max-w-2xl transform hover:-translate-y-1 transition-transform duration-300 px-4 sm:px-0">
               <Card
                 className="shadow-md hover:shadow-xl transition-shadow duration-300"
                 bordered={false}
                 style={{ borderRadius: "16px", overflow: "hidden" }}
               >
                 <Flex justify="center" flex={1} className="w-full">
-                  <Space.Compact size="large" className="w-full">
+                  <Space.Compact
+                    size="large"
+                    className="w-full flex-col sm:flex-row"
+                  >
                     <Input
-                      style={{ width: "100%", borderRadius: "8px 0 0 8px" }}
+                      style={{
+                        width: "100%",
+                        borderRadius: "8px 8px 0 0",
+                      }}
                       placeholder="Search by name, seat number or school"
                       value={search}
                       onChange={handleSearchChange}
@@ -281,8 +291,11 @@ export default function Dashboard() {
                       size="large"
                       onClick={handleSearch}
                       icon={<SearchOutlined />}
-                      style={{ borderRadius: "0 8px 8px 0" }}
-                      className="bg-blue-500 hover:bg-blue-600"
+                      style={{
+                        borderRadius: "0 0 8px 8px",
+                        width: "100%",
+                      }}
+                      className="bg-blue-500 hover:bg-blue-600 mt-2 sm:mt-0 sm:w-auto"
                     >
                       Search Results
                     </Button>
@@ -292,18 +305,18 @@ export default function Dashboard() {
             </div>
 
             {/* Help text with icon badges */}
-            <div className="mt-6 mb-8 text-center max-w-lg p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="mt-6 mb-8 text-center max-w-lg p-4 bg-gray-50 rounded-lg border border-gray-200 mx-4 sm:mx-auto">
               <Typography.Text className="text-base flex flex-col gap-2">
-                <span className="flex items-center gap-2 justify-center">
+                <span className="flex items-center gap-2 justify-center flex-wrap">
                   <Badge status="processing" />
                   Enter your <strong>full name</strong>,
                   <strong>seat number</strong> or <strong>school name</strong>
                 </span>
-                <span className="flex items-center gap-2 justify-center">
+                <span className="flex items-center gap-2 justify-center flex-wrap">
                   <Badge status="processing" />
                   Results include subject-wise marks and percentile
                 </span>
-                <span className="flex items-center gap-2 justify-center">
+                <span className="flex items-center gap-2 justify-center flex-wrap">
                   <Badge status="processing" />
                   Available for Science, Commerce and Arts streams
                 </span>
@@ -311,7 +324,7 @@ export default function Dashboard() {
             </div>
 
             {/* Results table with enhanced styling */}
-            <Flex vertical gap={8} className="w-full">
+            <Flex vertical gap={8} className="w-full px-2 sm:px-0">
               <Card
                 title={
                   <div className="flex items-center gap-2">
@@ -349,19 +362,21 @@ export default function Dashboard() {
                   }}
                   className="border-spacing-2"
                   rowClassName="hover:bg-blue-50"
+                  scroll={{ x: "600px" }}
+                  size="middle"
                 />
               </Card>
             </Flex>
 
             {/* Footer with social links */}
-            <Divider className="my-8" />
-            <div className="w-full text-center text-gray-500">
-              <Flex vertical gap={4} justify="center" align="center">
-                <Typography.Text className="text-sm">
+            <Divider className="my-4 sm:my-8" />
+            <div className="w-full text-center text-gray-500 px-4 sm:px-0">
+              <Flex vertical gap={2} justify="center" align="center">
+                <Typography.Text className="text-xs sm:text-sm">
                   © {new Date().getFullYear()} All Rights Reserved.
                 </Typography.Text>
 
-                <Typography.Text className="text-xs text-gray-400">
+                <Typography.Text className="text-xs text-gray-400 max-w-sm">
                   This is an unofficial result portal. For official results,
                   please visit the{" "}
                   <a
@@ -381,11 +396,13 @@ export default function Dashboard() {
                   type="text"
                   icon={<GithubOutlined />}
                   className="text-gray-600 hover:text-blue-600"
+                  size="small"
                 />
                 <Button
                   type="text"
                   icon={<LinkedinOutlined />}
                   className="text-gray-600 hover:text-blue-600"
+                  size="small"
                 />
               </div>
             </div>

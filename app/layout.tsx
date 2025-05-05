@@ -18,9 +18,9 @@ const poppins = Poppins({
 
 // Enhanced metadata for better SEO
 export const metadata: Metadata = {
-  title: "GSEB HSC 2025 Result - Check by Name, Seat Number | Official Results",
+  title: "GSEB HSC 2025 Result - Check by Name, Seat Number | Results",
   description:
-    "Get instant GSEB HSC 2025 Results by name, seat number or school. Fast and official Gujarat Board HSC Science, Commerce & Arts results with subject-wise marks and percentile.",
+    "Get instant GSEB HSC 2025 Results by name, seat number or school. Fast and official Gujarat Board HSC Science, Commerce & GUJ-CET results with subject-wise marks and percentile.",
   keywords:
     "GSEB HSC result 2025, Gujarat board result, HSC result name wise, GSEB 12th result, HSC science result, HSC commerce result, HSC arts result, GSEB result by seat number, Gujarat board 12th result",
   openGraph: {

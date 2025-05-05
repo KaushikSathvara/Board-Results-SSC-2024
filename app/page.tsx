@@ -34,9 +34,9 @@ const revalidate = 5;
 
 // Updated SEO metadata with trending keywords
 const meta = {
-  title: "GSEB HSC 2025 Result - Check by Name, Seat Number | Official Portal",
+  title: "GSEB HSC 2025 Result - Check by Name, Seat Number | Portal",
   description:
-    "Get instant GSEB HSC 2025 Results by name, seat number or school index. Fast and official Gujarat Board HSC Science, Commerce & Arts results with subject-wise marks and percentile rank.",
+    "Get instant GSEB HSC 2025 Results by name, seat number or school index. Fast and official Gujarat Board HSC Science, Commerce & GUJ-CET results with subject-wise marks and percentile rank.",
   keywords:
     "GSEB HSC result 2025, Gujarat board result, HSC result name wise, GSEB 12th result, HSC science result, HSC commerce result, HSC arts result, GSEB result by seat number",
 };
@@ -244,20 +244,14 @@ export default function Dashboard() {
                 size="large"
               >
                 <Typography.Title
-                  level={1}
-                  className="text-3xl font-bold mb-2 text-blue-800"
-                >
-                  GSEB HSC Result 2025 - Search by Name
-                </Typography.Title>
-                <Typography.Title
                   level={2}
                   className="text-xl font-semibold mb-4 text-blue-600"
                 >
-                  Official Gujarat Board Class 12 Results
+                  Gujarat Board Class 12 Results (HSC and GUJ-CET)
                 </Typography.Title>
                 <Typography.Text className="text-lg mb-6 text-gray-600">
                   Find your result by name, seat number or school - Instant
-                  access to Science, Commerce & Arts stream results
+                  access to Science, Commerce & GUJ-CET stream results
                 </Typography.Text>
               </Space.Compact>
             </div>
@@ -302,7 +296,7 @@ export default function Dashboard() {
               <Typography.Text className="text-base flex flex-col gap-2">
                 <span className="flex items-center gap-2 justify-center">
                   <Badge status="processing" />
-                  Enter your <strong>full name</strong>,{" "}
+                  Enter your <strong>full name</strong>,
                   <strong>seat number</strong> or <strong>school name</strong>
                 </span>
                 <span className="flex items-center gap-2 justify-center">

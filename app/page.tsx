@@ -213,7 +213,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchResults();
-  }, [page, pageSize, fetchResults]); // Added fetchResults as a dependency
+  }, [page, pageSize]); // Added fetchResults as a dependency
 
   return (
     <>

@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<!-- Migrate and Run command with prisma NextJS -->
 
-## Getting Started
+# Migrate and Run command with prisma NextJS
 
-First, run the development server:
+To run the Prisma migration and start the Next.js application, you can use the following command:
 
 ```bash
-npm run devs
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx prisma migrate dev && npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This command does the following:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. `npx prisma migrate dev`: This command runs the Prisma migration in development mode. It applies any pending migrations to your database and generates the Prisma client.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. `&&`: This operator ensures that the second command (`npm run dev`) only runs if the first command (`npx prisma migrate dev`) is successful.
 
-## Learn More
+<!-- To create tables  -->
 
-To learn more about Next.js, take a look at the following resources:
+3. `npm run dev`: This command starts the Next.js development server, allowing you to view your application in the browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Create Tables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To create tables in your database using Prisma, you need to define your data model in the `schema.prisma` file. After defining your models, you can run the migration command to create the tables in your database.
 
-## Deploy on Vercel
+### Example of a Prisma schema
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```prisma
+model User {
+  id    Int     @id @default(autoincrement())
+  name  String
+  email String  @unique
+  posts Post[]
+}
+model Post {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String
+  published Boolean @default(false)
+  author    User?   @relation(fields: [authorId], references: [id])
+  authorId  Int?
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Run the migration command
+
+After defining your models, you can run the migration command to create the tables in your database:
+
+```bash
+npx prisma migrate dev --name init
+```

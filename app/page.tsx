@@ -41,8 +41,18 @@ const meta = {
     "GSEB HSC result 2025, Gujarat board result, HSC result name wise, GSEB 12th result, HSC science result, HSC commerce result, HSC arts result, GSEB result by seat number",
 };
 
+// Define the Result interface for type safety
+interface Result {
+  id?: string | number;
+  name: string;
+  seat_no: string;
+  grade: string;
+  result: string;
+  [key: string]: any; // For any additional properties
+}
+
 export default function Dashboard() {
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<Result[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -86,7 +96,7 @@ export default function Dashboard() {
     }
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
@@ -95,13 +105,13 @@ export default function Dashboard() {
     fetchResults();
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();
     }
   };
 
-  const getGradeColor = (grade) => {
+  const getGradeColor = (grade: string) => {
     switch (grade) {
       case "A+":
         return "#52c41a"; // Green
@@ -133,10 +143,10 @@ export default function Dashboard() {
       ),
       dataIndex: "name",
       key: "name",
-      render: (text) => (
+      render: (text: string) => (
         <span className="font-medium text-blue-800">{text}</span>
       ),
-      sorter: (a, b) => a.name.localeCompare(b.name),
+      sorter: (a: Result, b: Result) => a.name.localeCompare(b.name),
     },
     {
       title: () => (
@@ -146,7 +156,7 @@ export default function Dashboard() {
       ),
       dataIndex: "seat_no",
       key: "seat_no",
-      render: (text) => (
+      render: (text: string) => (
         <Tooltip title="Gujarat Board Exam Seat Number">
           <Tag color="processing" className="px-3 py-1 text-base">
             {text}
@@ -162,7 +172,7 @@ export default function Dashboard() {
       ),
       dataIndex: "grade",
       key: "grade",
-      render: (text) => (
+      render: (text: string) => (
         <Tooltip title={`Performance Grade: ${text}`}>
           <Tag
             color={getGradeColor(text)}
@@ -182,7 +192,7 @@ export default function Dashboard() {
       ),
       dataIndex: "result",
       key: "result",
-      render: (text) => (
+      render: (text: string) => (
         <Badge
           status={text.includes("QUALIFIED") ? "success" : "error"}
           text={
@@ -203,7 +213,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchResults();
-  }, [page, pageSize]); // This effect runs when page or pageSize changes
+  }, [page, pageSize, fetchResults]); // Added fetchResults as a dependency
 
   return (
     <>

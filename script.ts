@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 async function uploadResults() {
   try {
     // Read the CSV file
-    const csvData = fs.readFileSync("./result.csv", "utf-8");
+    const csvData = fs.readFileSync("./data/result_A.csv", "utf-8");
     const rows = csvData.trim().split("\n").slice(1); // Skip the header row
 
     const chunkSize = 50000;

@@ -29,6 +29,7 @@ import {
   GithubOutlined,
   LinkedinOutlined,
 } from "@ant-design/icons";
+import useDebounce from "./hooks";
 
 const revalidate = 5;
 
@@ -59,6 +60,7 @@ export default function Dashboard() {
   const [pageSize, setPageSize] = useState(10);
   const [total, setTotal] = useState(0);
   const [api, contextHolder] = notification.useNotification();
+  const debouncedSearchTerm = useDebounce(search);
 
   const fetchResults = async () => {
     setLoading(true);
@@ -96,13 +98,9 @@ export default function Dashboard() {
     }
   };
 
-  const memoizedFetchResults = useCallback(() => {
-    fetchResults();
-  }, [search, page, pageSize]); // Include all dependencies used in fetchResults
-
   useEffect(() => {
-    memoizedFetchResults();
-  }, [memoizedFetchResults]);
+    fetchResults();
+  }, [debouncedSearchTerm, page, pageSize]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
